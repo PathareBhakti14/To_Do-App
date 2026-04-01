@@ -66,4 +66,73 @@
       }
     </style>
   </head>
-  
+
+   <body>
+    <h1 class="heading">To Do App</h1>
+    <div class="main-container">
+      <div id="todo-container" class="todo-container"></div>
+
+      <div class="to-do-items-input">
+        <input
+          type="text"
+          id="new-todo-item"
+          class="new-todo-item"
+          placeholder="New To Do Item"
+        />
+
+        <button id="add-todo-btn" class="add-todo-btn" onclick="addToDoItem()">
+          Add To Do
+        </button>
+      </div>
+    </div>
+    <script>
+      const TODO_ITEMS = ["Read Books", "Go To College", "Buy Groceries"];
+
+      const todoContainer = document.getElementById("todo-container");
+
+      function loadToDoItem() {
+        const TODO_ITEMS = JSON.parse(
+          localStorage.getItem("TODO_ITEMS") || "[]",
+        );
+
+        todoContainer.innerHTML = "";
+
+        for (let i = 0; i < TODO_ITEMS.length; i++) {
+          const currentItem = TODO_ITEMS[i];
+
+          todoContainer.innerHTML =
+            todoContainer.innerHTML +
+            `<div class="todo-items">${currentItem} <img src='bin.jpg' class='delete-todo-item' onclick='deleteToDoItem(${i})'/></div>`;
+        }
+      }
+
+      loadToDoItem();
+
+      function addToDoItem() {
+        const todoinputElement = document.getElementById("new-todo-item");
+
+        const storedToDoItems = JSON.parse(
+          localStorage.getItem("TODO_ITEMS") || "[]",
+        );
+
+        storedToDoItems.push(todoinputElement.value);
+
+        localStorage.setItem("TODO_ITEMS", JSON.stringify(storedToDoItems));
+
+        loadToDoItem();
+        todoinputElement.value = "";
+      }
+
+      function deleteToDoItem(index) {
+        const storedToDoItems = JSON.parse(
+          localStorage.getItem("TODO_ITEMS") || "[]",
+        );
+
+        storedToDoItems.splice(index, 1);
+        localStorage.setItem("TODO_ITEMS", JSON.stringify(storedToDoItems));
+
+        loadToDoItem();
+      }
+    </script>
+  </body>
+</html>
